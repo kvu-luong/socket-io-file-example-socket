@@ -19,6 +19,11 @@ uploader.on('stream', function(fileInfo) {
 });
 uploader.on('complete', function(fileInfo) {
 	console.log('Upload Complete', fileInfo);
+	var infor = {
+		"name": fileInfo.name,
+		"dir": fileInfo.uploadDir,
+	}
+	$("#file-list-image").append("<img src='"+infor.name+"'>");
 });
 uploader.on('error', function(err) {
 	console.log('Error!', err);

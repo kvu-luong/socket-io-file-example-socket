@@ -6,6 +6,8 @@ const httpServer = http.Server(app);
 const io = require('socket.io')(httpServer);
 const SocketIOFile = require('socket.io-file');
 
+app.use(express.static("data"));
+
 app.get('/', (req, res, next) => {
 	return res.sendFile(__dirname + '/client/index.html');
 });
@@ -37,14 +39,14 @@ io.on('connection', (socket) => {
 		chunkSize: 10240,							// default is 10240(1KB)
 		transmissionDelay: 0,						// delay of each transmission, higher value saves more cpu resources, lower upload speed. default is 0(no delay)
 		overwrite: false, 							// overwrite file if exists, default is true.
-		// rename: function(filename) {
-		// 	var split = filename.split('.');	// split filename by .(extension)
-		// 	var fname = split[0];	// filename without extension
-		// 	var ext = split[1];
+		rename: function(filename) {
+			var split = filename.split('.');	// split filename by .(extension)
+			var fname = split[0];	// filename without extension
+			var ext = split[1];
 
-		// 	return `${fname}_${count++}.${ext}`;
-		// }
-		rename: 'MyMusic.mp3'
+			return `${fname}_${count++}.${ext}`;
+		}
+		// rename: 'MyMusic.mp3'
 	});
 	uploader.on('start', (fileInfo) => {
 		console.log('Start uploading');
