@@ -11,10 +11,15 @@ app.use(express.static("data"));
 app.get('/', (req, res, next) => {
 	return res.sendFile(__dirname + '/client/index.html');
 });
+	
+app.get('/jquery.js', (req, res, next) => {
+	return res.sendFile(__dirname + '/client/jquery.js');
+});
 
 app.get('/app.js', (req, res, next) => {
 	return res.sendFile(__dirname + '/client/app.js');
 });
+
 
 app.get('/socket.io.js', (req, res, next) => {
 	return res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
