@@ -11,7 +11,7 @@ app.use(express.static("data"));
 app.get('/', (req, res, next) => {
 	return res.sendFile(__dirname + '/client/index.html');
 });
-	
+
 app.get('/jquery.js', (req, res, next) => {
 	return res.sendFile(__dirname + '/client/jquery.js');
 });
@@ -53,6 +53,16 @@ io.on('connection', (socket) => {
 		}
 		// rename: 'MyMusic.mp3'
 	});
+
+	socket.on("send-file", function(data){
+		var infor = {
+			"name": data.fileInfo.name,
+			"dir": data.fileInfo.uploadDir,
+		}
+		io.sockets.emit("show-image",{
+			"fileInfo": infor
+		})
+	})
 	uploader.on('start', (fileInfo) => {
 		console.log('Start uploading');
 		console.log(fileInfo);

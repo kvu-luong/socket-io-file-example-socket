@@ -19,12 +19,19 @@ uploader.on('stream', function(fileInfo) {
 });
 uploader.on('complete', function(fileInfo) {
 	console.log('Upload Complete', fileInfo);
-	var infor = {
-		"name": fileInfo.name,
-		"dir": fileInfo.uploadDir,
-	}
+	
+	socket.emit("send-file", {
+		"fileInfo": fileInfo
+	})
 	$("#file-list-image").append("<img src='"+infor.name+"'>");
 });
+socket.on("show-image", function(data){
+	var infor = {
+		"name": data.fileInfo.name,
+		"dir": data.fileInfo.dir,
+	}
+	$("#file-list-image").append("<img src='"+infor.name+"'>");
+})
 uploader.on('error', function(err) {
 	console.log('Error!', err);
 });
